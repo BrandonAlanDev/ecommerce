@@ -1,0 +1,70 @@
+import { motion } from 'framer-motion';
+import { ShoppingCart, Star, Truck, Heart } from 'lucide-react';
+import Image from 'next/image';
+
+
+const ProductCard = ({ product, addToCart }) => {
+  return (
+    <motion.div 
+      layout
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="select-none group bg-white rounded-2xl p-4 border border-gray-100 hover:shadow-2xl hover:shadow-gray-200/50 transition-all duration-300 relative overflow-hidden"
+    >
+      {/* Badges */}
+      <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
+        {product.isNew && (
+          <span className="bg-black text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wide">
+            Nuevo
+          </span>
+        )}
+      </div>
+      
+      <button className="absolute top-4 right-4 z-10 p-2 bg-white rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50 text-slate-400 hover:text-red-500">
+        <Heart className="w-4 h-4" />
+      </button>
+
+      {/* Image Container */}
+      <div className="aspect-[4/5] overflow-hidden rounded-xl bg-gray-50 mb-4 relative">
+        <Image
+          src={product.image}
+          alt={product.title}
+          width={300}
+          height={300}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+      </div>
+
+      {/* Content */}
+      <div className="space-y-2">
+        <div className="flex justify-between items-start">
+          <div>
+            <p className="text-xs text-slate-500 font-medium">{product.category}</p>
+            <h3 className="font-bold text-slate-900 text-lg leading-tight">{product.title}</h3>
+          </div>
+          <div className="flex items-center gap-1 text-amber-400 text-xs font-bold bg-amber-50 px-2 py-1 rounded-md">
+            <Star className="w-3 h-3 fill-amber-400" />
+            {product.rating}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 text-xs text-slate-500">
+          <Truck className="w-3 h-3" />
+          <span>{product.shipping}</span>
+        </div>
+
+        <div className="pt-4 flex items-center justify-between border-t border-gray-50 mt-4">
+          <span className="text-xl font-bold text-slate-900">${product.price}</span>
+          <button 
+            onClick={() => addToCart(product)}
+            className="bg-slate-900 text-white p-3 rounded-xl hover:bg-blue-600 transition-colors active:scale-95"
+          >
+            <ShoppingCart className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+export default ProductCard;

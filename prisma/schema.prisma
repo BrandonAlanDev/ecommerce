@@ -1,0 +1,168 @@
+generator client {
+  provider     = "prisma-client-js"
+  output       = "../generated/prisma"
+  relationMode = "prisma"
+}
+
+datasource db {
+  provider     = "mysql"
+  relationMode = "prisma"
+}
+
+model account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              user    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model user {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique(map: "User_email_key")
+  password      String?
+  role          user_role @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  emailVerified DateTime?
+  image         String?
+  telefono      String?
+  account       account[]
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  description String?
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  sizeTypeId  String?
+  sizeType    SizeType? @relation(fields: [sizeTypeId], references: [id])
+  garments    Garment[]
+
+  @@index([sizeTypeId])
+}
+
+model Provider {
+  id        String            @id @default(cuid())
+  name      String            @unique
+  active    Boolean           @default(true)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  details   String?
+  contacts  ContactProvider[]
+  garments  Garment[]
+}
+
+model ContactProvider {
+  id         String   @id @default(cuid())
+  contact    String
+  type       String
+  idProvider String
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  provider   Provider @relation(fields: [idProvider], references: [id], onDelete: Cascade)
+
+  @@unique([contact, idProvider], name: "contact_provider_unique")
+}
+
+model Garment {
+  id          String           @id @default(cuid())
+  name        String
+  price       Decimal          @db.Decimal(10, 2)
+  description String?
+  active      Boolean          @default(true)
+  categoryId  String
+  supplierId  String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  cost        Decimal          @db.Decimal(10, 2)
+  category    Category         @relation(fields: [categoryId], references: [id])
+  supplier    Provider?        @relation(fields: [supplierId], references: [id])
+  variants    GarmentVariant[]
+
+  @@index([categoryId])
+  @@index([supplierId])
+}
+
+model SizeType {
+  id         String     @id @default(cuid())
+  name       String     @unique
+  active     Boolean    @default(true)
+  sizes      Size[]
+  categories Category[]
+}
+
+model Size {
+  id         String           @id @default(cuid())
+  active     Boolean          @default(true)
+  order      Int
+  sizeTypeId String
+  value      String
+  sizeType   SizeType         @relation(fields: [sizeTypeId], references: [id])
+  variants   GarmentVariant[]
+
+  @@unique([value, sizeTypeId])
+}
+
+model GarmentVariant {
+  id        String     @id @default(cuid())
+  sku       String?    @unique
+  stock     Int        @default(0)
+  garmentId String
+  sizeId    String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  colorId   String?
+  garment   Garment    @relation(fields: [garmentId], references: [id], onDelete: Cascade)
+  size      Size       @relation(fields: [sizeId], references: [id])
+  color     Color?     @relation(fields: [colorId], references: [id])
+  movements Movement[]
+
+  @@unique([garmentId, sizeId, colorId])
+}
+
+model Movement {
+  id             String         @id @default(cuid())
+  type           MovementType
+  quantity       Int
+  priceAtTime    Decimal        @db.Decimal(10, 2)
+  note           String?
+  variantId      String
+  createdAt      DateTime       @default(now())
+  garmentVariant GarmentVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@index([variantId])
+}
+
+model Color {
+  id       String           @id @default(cuid())
+  name     String           @unique
+  hex      String?
+  active   Boolean          @default(true)
+  variants GarmentVariant[]
+}
+
+enum user_role {
+  USER
+  ADMIN
+}
+
+enum MovementType {
+  IN
+  OUT
+}
