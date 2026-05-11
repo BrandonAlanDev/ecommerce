@@ -1,14 +1,6 @@
 "use server";
-
-import { getGarments, getCategories, getProviders } from "@/actions/garments";
-import { getSizeTypes } from "@/actions/sizes";
-import { getColors } from "@/actions/colors";
 import Search from "@/components/Search";
-import CategoryFilter from "@/components/garment/CategoryFilter";
-import CategoryModal from "@/components/garment/CategoryModal";
-import MovementModal from "@/components/garment/MovementModal";
-import ProductModal from "@/components/garment/productModal";
-import QuickViewTable from "@/components/garment/QuickViewTable";
+
 
 export default async function DashboardPage({
   searchParams,
@@ -18,15 +10,6 @@ export default async function DashboardPage({
   const params = await searchParams;
   const query = params?.query || "";
   const category = params?.category || "";
-
-  // 2. Agregamos getColors() al Promise.all para cargar los colores de la DB
-  const [garments, sizeTypes, categories, providers, colors] = await Promise.all([
-    getGarments(query, category),
-    getSizeTypes(),
-    getCategories(),
-    getProviders(),
-    getColors(), 
-  ]);
 
   return (
     <div className="p-8 bg-neutral-950 min-h-screen text-neutral-100 pt-24">
@@ -41,18 +24,7 @@ export default async function DashboardPage({
             Control de Stock y Operaciones
           </p>
         </div>
-        
-        <div className="flex flex-row flex-wrap gap-3">
-          <MovementModal garments={garments} /> 
-          <CategoryModal sizeTypes={sizeTypes} /> 
-          {/* 3. Pasamos los colores al modal de producto para poder elegirlos al crear/editar */}
-          <ProductModal 
-            categories={categories} 
-            sizes={sizeTypes} 
-            providers={providers} 
-            colors={colors}
-          />
-        </div>
+      
       </div>
 
       {/* FILTROS Y BÚSQUEDA */}
@@ -60,19 +32,7 @@ export default async function DashboardPage({
         <div className="flex-1">
           <Search className="w-full" />
         </div>
-        <div className="w-full md:w-72">
-          <CategoryFilter categories={categories} />
-        </div>
       </div>
-
-      {/* 4. Pasamos los colores a la tabla de vista rápida */}
-      <QuickViewTable 
-        garments={garments} 
-        categories={categories} 
-        sizeTypes={sizeTypes} 
-        providers={providers} 
-        colors={colors}
-      />
     </div>
   );
 }
