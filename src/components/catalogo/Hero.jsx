@@ -46,7 +46,7 @@ const Hero = ({ setActiveCategory }) => {
   const currentSlide = heroSlides[current];
 
   return (
-    <div className="relative w-full h-[650px] bg-[#0a0a0a] text-white overflow-hidden mt-16 group">
+    <div className="relative w-full h-[100dvh] bg-[#0a0a0a] text-white overflow-hidden group">
       
       {/* Carrusel de Imágenes */}
       <AnimatePresence mode='wait'>
