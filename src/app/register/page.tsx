@@ -23,10 +23,10 @@ export default function RegisterPage() {
       <div className="min-w-[300px] md:min-w-[400px] backdrop-blur-lg bg-linear-to-br from-gray-950/60 to-gray-850/20 border border-white/10 rounded-3xl p-8 shadow-2xl relative">
         <div className="text-center mb-6">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-black/90 mb-4 border border-blue-500/30">
-              <Shirt className="w-8 h-8 text-amber-300"/>
+              <Shirt className="w-8 h-8 text-blue-300"/>
           </div>
           <h1 className="text-3xl font-black text-white italic uppercase tracking-tighter">
-            Obtén tu <span className="text-amber-300">permiso</span>
+            Obtén tu <span className="text-blue-300">permiso</span>
           </h1>
           <p className="text-gray-400 text-sm mt-1">Regístrate y espera la aprobacion de tu cuenta</p>
         </div>
@@ -47,13 +47,13 @@ export default function RegisterPage() {
             {/* Input Nombre */}
             <div className="space-y-1">
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-500/50" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-500/50" />
                 <input
                   name="name"
                   type="text"
                   placeholder="Nombre Completo"
                   required
-                  className="w-full bg-black/20 border border-white/5 rounded-xl py-3 pl-10 pr-4 text-white focus:border-amber-500 transition-all"
+                  className="w-full bg-black/20 border border-white/5 rounded-xl py-3 pl-10 pr-4 text-white focus:border-blue-500 transition-all"
                 />
               </div>
             </div>
@@ -61,13 +61,13 @@ export default function RegisterPage() {
             {/* Input Email */}
             <div className="space-y-1">
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-500/50" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-500/50" />
                 <input
                   name="email"
                   type="email"
                   placeholder="Correo de contacto"
                   required
-                  className="w-full bg-black/20 border border-white/5 rounded-xl py-3 pl-10 pr-4 text-white focus:border-amber-500 transition-all"
+                  className="w-full bg-black/20 border border-white/5 rounded-xl py-3 pl-10 pr-4 text-white focus:border-blue-500 transition-all"
                 />
               </div>
             </div>
@@ -75,13 +75,13 @@ export default function RegisterPage() {
             {/* Input Password */}
             <div className="space-y-1">
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-500/50" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-500/50" />
                 <input
                   name="password"
                   type="password"
                   placeholder="Contraseña"
                   required
-                  className="w-full bg-black/20 border border-white/5 rounded-xl py-3 pl-10 pr-4 text-white focus:border-amber-500 transition-all"
+                  className="w-full bg-black/20 border border-white/5 rounded-xl py-3 pl-10 pr-4 text-white focus:border-blue-500 transition-all"
                 />
               </div>
             </div>
@@ -96,7 +96,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={isPending}
-            className="w-full bg-gradient-to-r from-amber-700 to-amber-500 hover:from-amber-600 hover:to-amber-400 text-white font-black py-4 rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.4)] transition-all duration-300 flex items-center justify-center gap-3 uppercase italic"
+            className="w-full bg-gradient-to-r from-blue-700 to-blue-500 hover:from-blue-600 hover:to-blue-400 text-white font-black py-4 rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.4)] transition-all duration-300 flex items-center justify-center gap-3 uppercase italic"
           >
             {isPending ? "Procesando..." : (
               <>
@@ -110,7 +110,7 @@ export default function RegisterPage() {
         <div className="text-center mt-6">
           <p className="text-xs text-gray-500 uppercase tracking-widest">
             ¿Ya eres miembro?{" "}
-            <Link href="/login" className="text-amber-500 font-black hover:text-amber-400 transition-colors">
+            <Link href="/login" className="text-blue-500 font-black hover:text-blue-400 transition-colors">
               Log In
             </Link>
           </p>
