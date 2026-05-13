@@ -35,7 +35,7 @@ export const products = [
     subcategory: "Quillas",
     price: 125000,
     rating: 4.7,
-    image: [""],
+    image: [],
     isNew: false,
     shipping: "Envío: $5500"
   },
@@ -46,7 +46,7 @@ export const products = [
     subcategory: "Leashes",
     price: 45000,
     rating: 4.8,
-    image: [""],
+    image: [],
     isNew: false,
     shipping: "Gratis"
   },
@@ -58,7 +58,7 @@ export const heroSlides = [
     title: "New Surf Board",
     subtitle: "Personalizado.",
     description: "Crea tu propia tabla.",
-    image: ["images/new.jpg"],
+    image: ["/images/products/tabla.jpg"],
     ctaText: "Contactanos",
     targetCategory: "Tablas",
     theme: "dark"
@@ -88,7 +88,7 @@ export const heroSlides = [
     title: "Trajes",
     subtitle: "Equipamiento de alto rendimiento.",
     description: "",
-    image: ["images/products/traje.jpg"],
+    image: ["/images/products/traje.jpg"],
     ctaText: "Ver Trajes",
     targetCategory: "Trajes",
     theme: "dark"

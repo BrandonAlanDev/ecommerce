@@ -65,7 +65,11 @@ const ProductCard = ({ product, addToCart }) => {
       {/* Image Container */}
       <div className="aspect-[4/5] overflow-hidden rounded-xl bg-gray-50 mb-4 relative">
         <Image
-          src={(product.image && product.image !== "") ? product.image?.[currentImage] : "/placeholder.avif"}
+          src={
+            product.image?.[currentImage]
+              ? product.image[currentImage]
+              : "/images/placeholder.avif"
+          }
           alt={product.title}
           width={300}
           height={300}
