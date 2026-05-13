@@ -15,7 +15,21 @@ export const products = [
     rating: 4.9,
     image: ["https://http2.mlstatic.com/D_NQ_NP_847746-MLM88026441300_072025-O.webp", "https://www.stockcenter.com.ar/on/demandware.static/-/Sites-365-dabra-catalog/default/dw4e0601c9/products/NIDJ5631-700/NIDJ5631-700-2.JPG"],
     isNew: true,
-    shipping: "Gratis"
+    shipping: "Gratis",
+    description: "La Lost Driver 3.0 Pro es una tabla de surf de alto rendimiento diseñada para surfistas avanzados que buscan velocidad, maniobrabilidad y control en olas grandes. Con su diseño agresivo y tecnología avanzada, esta tabla ofrece un rendimiento excepcional en condiciones desafiantes.",
+    sizes: [
+    {
+      name: "Chico (5'6\")",
+      stock: 4
+    },
+    {
+      name: "Mediano (6'0\")",
+      stock: 10
+    },
+    {
+      name: "Grande (6'6\")",
+      stock: 0
+    }]
   },
   {
     id: 2,
@@ -24,9 +38,24 @@ export const products = [
     subcategory: "Tapones de Plástico",
     price: 250000,
     rating: 4.8,
+
     image: ["https://assets.adidas.com/images/w_600,f_auto,q_auto/7a74238c9a054d1dbb4d069791c6dba9_9366/PREDATOR_ACCURACY.1_FG_Blanco_GZ0035_HM1.jpg"],
     isNew: false,
-    shipping: "Gratis"
+    shipping: "Gratis",
+    description: "El Wetsuit Rip Curl Flashbomb 4/3 Chest Zip es un traje de neopreno de alta calidad diseñado para ofrecer comodidad y protección en el agua. Su construcción resistente y su diseño ergonómico lo hacen ideal para surfistas que buscan rendimiento en condiciones adversas.",
+    sizes: [
+    {
+      name: "Chico (5'6\")",
+      stock: 4
+    },
+    {
+      name: "Mediano (6'0\")",
+      stock: 10
+    },
+    {
+      name: "Grande (6'6\")",
+      stock: 0
+    }]
   },
   {
     id: 3,
@@ -37,7 +66,21 @@ export const products = [
     rating: 4.7,
     image: ["https://www.dexter.com.ar/on/demandware.static/-/Sites-365-dabra-catalog/default/dw3ef1bbc8/products/NIDA1190-001/NIDA1190-001-1.JPG"],
     isNew: true,
-    shipping: "Envío: $10"
+    shipping: "Envío: $10",
+    description: "Las Quillas FCS II Mick Fanning PC Thruster son un set de quillas de alto rendimiento diseñadas para surfistas que buscan velocidad y control en sus maniobras. Con su diseño innovador y materiales de alta calidad, estas quillas ofrecen una experiencia de surf excepcional en una variedad de condiciones.",
+    sizes: [
+    {
+      name: "Chico (5'6\")",
+      stock: 4
+    },
+    {
+      name: "Mediano (6'0\")",
+      stock: 10
+    },
+    {
+      name: "Grande (6'6\")",
+      stock: 0
+    }]
   },
   {
     id: 4,
@@ -48,7 +91,21 @@ export const products = [
     rating: 4.8,
     image: ["https://images.prodirectsport.com/ProductImages/Main/1026199_Main_1916738.jpg"],
     isNew: false,
-    shipping: "Gratis"
+    shipping: "Gratis",
+    description: "El Leash Creatures of Leisure Pro 6' es un leash de alta calidad diseñado para mantener tu tabla de surf segura mientras estás en el agua. Con su construcción resistente y su diseño ergonómico, este leash ofrece comodidad y durabilidad para surfistas de todos los niveles.",
+    sizes: [
+    {
+      name: "Chico (5'6\")",
+      stock: 4
+    },
+    {
+      name: "Mediano (6'0\")",
+      stock: 10
+    },
+    {
+      name: "Grande (6'6\")",
+      stock: 0
+    }]
   },
 ];
 
