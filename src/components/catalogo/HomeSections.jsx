@@ -1,8 +1,10 @@
-import React from 'react';
+"use client";
+
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ChevronDown, ArrowRight } from 'lucide-react';
 import { categories } from './data';
-import  ProductCard  from './ProductCard';
+import ProductCard from './ProductCard';
 
 // --- COMPONENTE: BANNER PROMOCIONAL ---
 export const PromotionBanner = () => {
@@ -24,7 +26,7 @@ export const PromotionBanner = () => {
             Pasión por el Mar.
           </h3>
           <p className="text-slate-300 mb-8 max-w-lg mx-auto text-lg leading-relaxed">
-            Explorá nuestra selección técnica de tablas y trajes de alta gama, diseñados para resistir las condiciones más exigentes del Atlántico. Equipamiento probado en los picos locales para que solo te preocupes por la próxima serie.
+            Explorá nuestra selección técnica de tablas y trajes de alta gama, diseñados para resistir las condiciones más exigentes del Atlántico. Equipamiento probado en los picos locales.
           </p>
           <a href="/productos">
             <button className="bg-white text-slate-900 px-8 py-4 rounded-full font-bold hover:bg-blue-50 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 mx-auto">
@@ -38,46 +40,129 @@ export const PromotionBanner = () => {
   );
 };
 
-// --- COMPONENTE: SECCIÓN DESTACADA (Con Filtros) ---
+// --- COMPONENTE AUXILIAR: BOTÓN CON DESPLEGABLE ---
+const CategoryDropdown = ({ cat, activeCategory, setActiveCategory, setActiveSubcategory }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const timeoutRef = useRef(null);
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => setIsOpen(false), 200);
+  };
+
+  const isSelected = activeCategory === cat.name;
+
+  return (
+    <div 
+      className="relative"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <button
+        onClick={() => {
+          setActiveCategory(cat.name);
+          setActiveSubcategory("Todas");
+        }}
+        className={`flex items-center gap-2 px-5 py-2.5 rounded-full whitespace-nowrap transition-all text-sm font-semibold border ${
+          isSelected 
+            ? "bg-slate-900 text-white shadow-lg border-slate-900" 
+            : "bg-white text-slate-600 border-slate-200 hover:border-slate-400"
+        }`}
+      >
+        {cat.name}
+        <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="absolute top-full left-0 mt-2 w-48 bg-white rounded-2xl shadow-2xl border border-slate-100 py-2 z-50 overflow-hidden"
+          >
+            <button
+              onClick={() => {
+                setActiveCategory(cat.name);
+                setActiveSubcategory("Todas");
+                setIsOpen(false);
+              }}
+              className="w-full text-left px-4 py-2 text-xs font-bold text-slate-400 hover:bg-slate-50 uppercase tracking-widest"
+            >
+              Ver Todo {cat.name}
+            </button>
+            <div className="h-[1px] bg-slate-100 my-1" />
+            {cat.subcategories.map((sub) => (
+              <button
+                key={sub}
+                onClick={() => {
+                  setActiveCategory(cat.name);
+                  setActiveSubcategory(sub);
+                  setIsOpen(false);
+                }}
+                className="w-full text-left px-4 py-3 text-sm text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors font-medium"
+              >
+                {sub}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+// --- COMPONENTE: SECCIÓN DESTACADA (Con Filtros Dropdown) ---
 export const FeaturedSection = ({ activeCategory, setActiveCategory, products, addToCart }) => {
-  
-  // Filtramos productos para el Home
-  const filteredProducts = activeCategory === "Todos" 
-    ? products 
-    : products.filter(p => p.category === activeCategory);
+  const [activeSubcategory, setActiveSubcategory] = useState("Todas");
+
+  // Filtrado lógico
+  const filteredProducts = products.filter(p => {
+    const matchesCategory = activeCategory === "Todos" || p.category === activeCategory;
+    const matchesSubcategory = activeSubcategory === "Todas" || p.subcategory === activeSubcategory;
+    return matchesCategory && matchesSubcategory;
+  });
 
   return (
     <section id="featured" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
-        <div className='flex flex-col p-5'>
-          <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Lo Nuevo en la Costa</h2>
-          <p className="text-slate-500 mt-2 text-lg">La mejor tecnología para tu sesión de surf.</p>
+        <div className='flex flex-col'>
+          <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Equipamiento Destacado</h2>
+          <p className="text-slate-500 mt-2 text-lg font-medium">
+            {activeCategory === "Todos" 
+              ? "Lo mejor de nuestra tienda en Santa Clara." 
+              : `Explorando ${activeCategory} ${activeSubcategory !== "Todas" ? `> ${activeSubcategory}` : ""}`}
+          </p>
         </div>
         
-        {/* Filtros de Categoría */}
-        <div className="flex gap-3 overflow-x-auto p-5 no-scrollbar">
+        {/* Contenedor de filtros: IMPORTANTE el overflow-visible para el dropdown */}
+        <div className="flex gap-3 overflow-visible p-2">
           <button 
-            onClick={() => setActiveCategory("Todos")}
-            className={`px-5 py-2.5 rounded-full whitespace-nowrap transition-all text-sm font-semibold ${
+            onClick={() => {
+              setActiveCategory("Todos");
+              setActiveSubcategory("Todas");
+            }}
+            className={`px-5 py-2.5 rounded-full transition-all text-sm font-semibold border ${
               activeCategory === "Todos" 
-                ? "bg-slate-900 text-white shadow-lg shadow-slate-900/20" 
-                : "bg-white text-slate-600 border border-slate-200 hover:border-slate-400 hover:bg-slate-50"
+                ? "bg-slate-900 text-white shadow-lg border-slate-900" 
+                : "bg-white text-slate-600 border-slate-200 hover:border-slate-400"
             }`}
           >
-            Todos los Productos
+            Todos
           </button>
+
           {categories.map((cat) => (
-            <button
+            <CategoryDropdown 
               key={cat.id}
-              onClick={() => setActiveCategory(cat.name)}
-              className={`px-5 py-2.5 rounded-full whitespace-nowrap transition-all text-sm font-semibold ${
-                activeCategory === cat.name 
-                  ? "bg-slate-900 text-white shadow-lg shadow-slate-900/20" 
-                  : "bg-white text-slate-600 border border-slate-200 hover:border-slate-400 hover:bg-slate-50"
-              }`}
-            >
-              {cat.name}
-            </button>
+              cat={cat}
+              activeCategory={activeCategory}
+              setActiveCategory={setActiveCategory}
+              setActiveSubcategory={setActiveSubcategory}
+            />
           ))}
         </div>
       </div>
@@ -96,6 +181,12 @@ export const FeaturedSection = ({ activeCategory, setActiveCategory, products, a
           ))}
         </AnimatePresence>
       </motion.div>
+
+      {filteredProducts.length === 0 && (
+        <div className="w-full py-20 text-center text-slate-400">
+          No hay productos disponibles en esta subcategoría actualmente.
+        </div>
+      )}
     </section>
   );
 };

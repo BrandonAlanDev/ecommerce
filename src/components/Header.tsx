@@ -91,38 +91,13 @@ export default function Header({
       `}
     >
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <div
-            className={`
-              p-2 rounded-xl transition-all duration-300
-              ${
-                isHomeTop
-                  ? "bg-white backdrop-blur-sm"
-                  : "bg-blue-500"
-              }
-            `}
-          >
-            <Shirt
-              size={20}
-              className={"text-black"}
-            />
-          </div>
-
           <span className={`text-xl font-black uppercase italic tracking-tighter ${
                 isHomeTop
                   ? "text-white"
                   : "text-white"
               }`}>
-            GESTION
-            <span
-              className={`
-                text-xs not-italic ml-1
-                ${isHomeTop ? "text-blue-500" : "text-white/70"}
-              `}
-            >
-              OK
-            </span>
+            NewSurfBoard
           </span>
         </Link>
 
@@ -145,21 +120,7 @@ export default function Header({
           <button className={`${actionButtonStyle} hidden sm:flex`}>
             <Search size={18} />
           </button>
-
-          {/* Cart */}
-          <button
-            onClick={onOpenCart}
-            className={`${actionButtonStyle} relative`}
-          >
-            <ShoppingCart size={18} />
-
-            {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-blue-500 text-black text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center">
-                {cartCount}
-              </span>
-            )}
-          </button>
-
+          
           {/* Logged User */}
           {session?.user?.name ? (
             <>
@@ -174,11 +135,10 @@ export default function Header({
                     }
                   `}
                 >
-                  Usuario
                 </span>
 
                 <span className="text-xs text-blue-800 font-medium">
-                  {session?.user?.name || "Admin"}
+                  {"Admin"}
                 </span>
               </div>
 

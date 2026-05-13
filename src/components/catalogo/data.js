@@ -1,6 +1,6 @@
 export const categories = [
   { id: 1, name: "Tablas", subcategories: ["Shortboards", "Longboards", "Funboards", "Evolutivas"] },
-  { id: 2, name: "Wetsuits", subcategories: ["3/2 mm", "4/3 mm", "Accesorios Neoprene", "Lycras"] },
+  { id: 2, name: "Trajes", subcategories: ["3/2 mm", "4/3 mm", "Accesorios Neoprene", "Lycras"] },
   { id: 3, name: "Accesorios", subcategories: ["Quillas", "Leashes", "Fundas", "Parafina"] },
   { id: 4, name: "Indumentaria", subcategories: ["Remeras", "Bermudas", "Buzos", "Gorros"] },
 ];
