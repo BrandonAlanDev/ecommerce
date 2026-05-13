@@ -23,14 +23,14 @@ export const PromotionBanner = () => {
             Equipo Pro
           </span>
           <h3 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
-            Pasión por el Mar.
+            Pasión por el fútbol.
           </h3>
           <p className="text-slate-300 mb-8 max-w-lg mx-auto text-lg leading-relaxed">
-            Explorá nuestra selección técnica de tablas y trajes de alta gama, diseñados para resistir las condiciones más exigentes del Atlántico. Equipamiento probado en los picos locales.
+            Explorá nuestra selección botines de fútbol 11 diseñados para ofrecerte el máximo rendimiento en cada partido. Con tecnología de punta, comodidad excepcional y estilos modernos, nuestros botines te ayudarán a dominar el campo con confianza y estilo.
           </p>
           <a href="/productos">
             <button className="bg-white text-slate-900 px-8 py-4 rounded-full font-bold hover:bg-blue-50 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 mx-auto">
-              Ver Equipamiento de Surf
+              Ver Botines
               <ArrowRight className="w-4 h-4" />
             </button>
           </a>

@@ -6,7 +6,6 @@ import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import AuthLayout from "@/components/auth/AuthLayout";
 import { User, Mail, Lock, Rocket, Shirt } from "lucide-react";
-import Image from "next/image";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -28,7 +27,7 @@ export default function RegisterPage() {
           <h1 className="text-3xl font-black text-white italic uppercase tracking-tighter">
             Obtén tu <span className="text-blue-300">permiso</span>
           </h1>
-          <p className="text-gray-400 text-sm mt-1">Regístrate y espera la aprobacion de tu cuenta</p>
+          <p className="text-gray-400 text-sm mt-1">Regístrate y obtén acceso a nuestros productos exclusivos</p>
         </div>
 
         <div className="space-y-3 mb-6">
