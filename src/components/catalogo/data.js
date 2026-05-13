@@ -15,7 +15,21 @@ export const products = [
     rating: 4.9,
     image: ["https://images.unsplash.com/photo-1531722569936-825d3dd91b15?q=80&w=1000&auto=format&fit=crop"],
     isNew: true,
-    shipping: "Gratis"
+    shipping: "Gratis",
+    description: "La Lost Driver 3.0 Pro es una tabla de surf de alto rendimiento diseñada para surfistas avanzados que buscan velocidad, maniobrabilidad y control en olas grandes. Con su diseño agresivo y tecnología avanzada, esta tabla ofrece un rendimiento excepcional en condiciones desafiantes.",
+    sizes: [
+    {
+      name: "Chico (5'6\")",
+      stock: 4
+    },
+    {
+      name: "Mediano (6'0\")",
+      stock: 10
+    },
+    {
+      name: "Grande (6'6\")",
+      stock: 0
+    }]
   },
   {
     id: 2,
@@ -26,7 +40,22 @@ export const products = [
     rating: 4.8,
     image: ["/images/products/traje.jpg"],
     isNew: true,
-    shipping: "Gratis"
+    shipping: "Gratis",
+    description: "El Wetsuit Rip Curl Flashbomb 4/3 Chest Zip es un traje de neopreno de alta calidad diseñado para ofrecer comodidad y protección en el agua. Su construcción resistente y su diseño ergonómico lo hacen ideal para surfistas que buscan rendimiento en condiciones adversas.",
+      sizes: [
+    {
+      name: "Chico (5'6\")",
+      stock: 4
+    },
+    {
+      name: "Mediano (6'0\")",
+      stock: 10
+    },
+    {
+      name: "Grande (6'6\")",
+      stock: 0
+    }]
+    
   },
   {
     id: 3,
@@ -37,7 +66,21 @@ export const products = [
     rating: 4.7,
     image: [],
     isNew: false,
-    shipping: "Envío: $5500"
+    shipping: "Envío: $5500",
+    description: "Las Quillas FCS II Mick Fanning PC Thruster son un set de quillas de alto rendimiento diseñadas para surfistas que buscan velocidad y control en sus maniobras. Con su diseño innovador y materiales de alta calidad, estas quillas ofrecen una experiencia de surf excepcional en una variedad de condiciones.",
+    sizes: [
+    {
+      name: "Chico (5'6\")",
+      stock: 4
+    },
+    {
+      name: "Mediano (6'0\")",
+      stock: 10
+    },
+    {
+      name: "Grande (6'6\")",
+      stock: 0
+    }]
   },
   {
     id: 4,
@@ -48,7 +91,21 @@ export const products = [
     rating: 4.8,
     image: [],
     isNew: false,
-    shipping: "Gratis"
+    shipping: "Gratis",
+    description: "El Leash Creatures of Leisure Pro 6' es un leash de alta calidad diseñado para mantener tu tabla de surf segura mientras estás en el agua. Con su construcción resistente y su diseño ergonómico, este leash ofrece comodidad y durabilidad para surfistas de todos los niveles.",
+    sizes: [
+    {
+      name: "Chico (5'6\")",
+      stock: 4
+    },
+    {
+      name: "Mediano (6'0\")",
+      stock: 10
+    },
+    {
+      name: "Grande (6'6\")",
+      stock: 0
+    }]
   },
 ];
 

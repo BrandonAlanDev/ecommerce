@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ShoppingCart, Star, Truck, Heart } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const ProductCard = ({ product, addToCart }) => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -48,7 +49,7 @@ const ProductCard = ({ product, addToCart }) => {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       className="select-none group bg-white rounded-2xl p-4 border border-gray-100 hover:shadow-2xl hover:shadow-gray-200/50 transition-all duration-300 relative overflow-hidden"
-    >
+    ><Link href={`/productos/${product.id}`}>
       {/* Badges */}
       <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
         {product.isNew && (
@@ -105,16 +106,9 @@ const ProductCard = ({ product, addToCart }) => {
           <span className="text-xl font-bold text-slate-900">
             ${product.price}
           </span>
-
-          <button
-            onClick={() => addToCart(product)}
-            className="bg-slate-900 text-white p-3 rounded-xl hover:bg-blue-600 transition-colors active:scale-95"
-          >
-            <ShoppingCart className="w-4 h-4" />
-          </button>
         </div>
       </div>
-    </motion.div>
+    </Link></motion.div>
   );
 };
 
