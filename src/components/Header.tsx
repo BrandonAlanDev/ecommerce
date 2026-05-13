@@ -101,26 +101,9 @@ export default function Header({
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          <Button variant={"blanco"}><Link href="/" className={linkStyle("/")}>
-            <Home size={16} />
-            Home
-          </Link></Button>
-
-          <Button variant={"blanco"}><Link href="/productos" className={linkStyle("/productos")}>
-            <Store size={16} />
-            Catálogo
-          </Link></Button>
-        </nav>
-
         {/* Actions */}
-        <div className="flex items-center gap-3">
-          {/* Search */}
-          <button className={`${actionButtonStyle} hidden sm:flex`}>
-            <Search size={18} />
-          </button>
-          
+        <div className="flex items-center gap-3">   
+
           {/* Logged User */}
           {session?.user?.name ? (
             <>
