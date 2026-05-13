@@ -1,52 +1,52 @@
 export const categories = [
-  { id: 1, name: "Botines", subcategories: ["Césped Natural", "Césped Sintético", "Futsal"] },
-  { id: 2, name: "Zapatillas de Papi", subcategories: ["Indoor", "Turf", "Profesionales"] },
-  { id: 3, name: "Indumentaria", subcategories: ["Camisetas", "Shorts", "Conjuntos"] },
-  { id: 4, name: "Accesorios", subcategories: ["Medias", "Canilleras", "Guantes"] },
+  { id: 1, name: "Tablas", subcategories: ["Shortboards", "Longboards", "Funboards", "Evolutivas"] },
+  { id: 2, name: "Trajes", subcategories: ["3/2 mm", "4/3 mm", "Accesorios Neoprene", "Lycras"] },
+  { id: 3, name: "Accesorios", subcategories: ["Quillas", "Leashes", "Fundas", "Parafina"] },
+  { id: 4, name: "Indumentaria", subcategories: ["Remeras", "Bermudas", "Buzos", "Gorros"] },
 ];
 
 export const products = [
   {
     id: 1,
-    title: "Botines Nike Mercurial Vapor 15",
-    category: "Botines",
-    subcategory: "Césped Sintético",
-    price: 260000,
+    title: "Tabla Lost Driver 3.0 Pro",
+    category: "Tablas",
+    subcategory: "Shortboards",
+    price: 850000,
     rating: 4.9,
-    image: ["https://http2.mlstatic.com/D_NQ_NP_847746-MLM88026441300_072025-O.webp", "https://www.stockcenter.com.ar/on/demandware.static/-/Sites-365-dabra-catalog/default/dw4e0601c9/products/NIDJ5631-700/NIDJ5631-700-2.JPG"],
+    image: ["https://images.unsplash.com/photo-1531722569936-825d3dd91b15?q=80&w=1000&auto=format&fit=crop"],
     isNew: true,
     shipping: "Gratis"
   },
   {
     id: 2,
-    title: "Adidas Predator Accuracy+",
-    category: "Botines",
-    subcategory: "Césped Natural",
-    price: 250000,
+    title: "Wetsuit Rip Curl Flashbomb 4/3 Chest Zip",
+    category: "Wetsuits",
+    subcategory: "4/3 mm",
+    price: 420000,
     rating: 4.8,
-    image: ["https://assets.adidas.com/images/w_600,f_auto,q_auto/7a74238c9a054d1dbb4d069791c6dba9_9366/PREDATOR_ACCURACY.1_FG_Blanco_GZ0035_HM1.jpg"],
-    isNew: false,
+    image: ["/images/products/traje.jpg"],
+    isNew: true,
     shipping: "Gratis"
   },
   {
     id: 3,
-    title: "Zapatillas Nike Tiempo Legend Indoor",
-    category: "Zapatillas de Papi",
-    subcategory: "Indoor",
-    price: 150000,
+    title: "Quillas FCS II Mick Fanning PC Thruster",
+    category: "Accesorios",
+    subcategory: "Quillas",
+    price: 125000,
     rating: 4.7,
-    image: ["https://www.dexter.com.ar/on/demandware.static/-/Sites-365-dabra-catalog/default/dw3ef1bbc8/products/NIDA1190-001/NIDA1190-001-1.JPG"],
-    isNew: true,
-    shipping: "Envío: $10"
+    image: [],
+    isNew: false,
+    shipping: "Envío: $5500"
   },
   {
     id: 4,
-    title: "Adidas Copa Pure III Turf",
-    category: "Zapatillas de Papi",
-    subcategory: "Turf",
-    price: 140000,
+    title: "Leash Creatures of Leisure Pro 6'",
+    category: "Accesorios",
+    subcategory: "Leashes",
+    price: 45000,
     rating: 4.8,
-    image: ["https://images.prodirectsport.com/ProductImages/Main/1026199_Main_1916738.jpg"],
+    image: [],
     isNew: false,
     shipping: "Gratis"
   },
@@ -55,32 +55,42 @@ export const products = [
 export const heroSlides = [
   {
     id: 1,
-    title: "Velocidad Profesional",
-    subtitle: "Diseñados para romper líneas.",
-    description: "Los nuevos botines de alto rendimiento ofrecen tracción, control y explosividad en cada jugada.",
-    image: ["https://brand.assets.adidas.com/image/upload/f_auto,q_auto:best,fl_lossy/if_w_gt_1920,w_1920/global_radiant_blaze_main_pack_3_football_fw25_launch_pdp_banner_statement_16_d_9567afe76d.jpg"],
-    ctaText: "Ver Botines",
-    targetCategory: "Botines",
+    title: "New Surf Board",
+    subtitle: "Personalizado.",
+    description: "Crea tu propia tabla.",
+    image: ["/images/products/tabla.jpg"],
+    ctaText: "Contactanos",
+    targetCategory: "Tablas",
     theme: "dark"
   },
   {
     id: 2,
-    title: "Dominá el Papi",
-    subtitle: "Precisión en cada toque.",
-    description: "Zapatillas diseñadas para fútbol 5 con máximo control, agarre y comodidad en superficies indoor y turf.",
-    image: ["https://eldoce.tv/resizer/v2/scioli-y-evo-compartieron-un-partido-de-futbol-en-villa-la-nata-5ETD2BM3VVBHXEJCEMSYLA7JNM.jpg?auth=d6c7d830e6a2bea0ffdb99c58d00b80321fa82f3038b58ae1c4bcaf85c804b34&width=767"],
-    ctaText: "Ver Zapatillas",
-    targetCategory: "Zapatillas de Papi",
-    theme: "dark" 
-  },
-  {
-    id: 3,
-    title: "No te pongas limites",
-    subtitle: "Rendimiento sin límites.",
-    description: "Indumentaria deportiva de alto nivel para entrenar y competir con máxima comodidad.",
-    image: ["https://mejorconsalud.as.com/wp-content/uploads/2021/12/corredor-pista-atletismo-e1730915758931.jpg"],
-    ctaText: "Explorar Indumentaria",
+    title: "Indumentaria",
+    subtitle: "Nuestro estilo.",
+    description: "Encontrá las mejores indumentaria surfera.",
+    image: ["https://images.unsplash.com/photo-1502680390469-be75c86b636f?q=80&w=1000&auto=format&fit=crop"],
+    ctaText: "Ver Indumentaria",
     targetCategory: "Indumentaria",
-    theme: "light"
+    theme: "dark"
+  }
+  , {
+    id: 3,
+    title: "Accesorios",
+    subtitle: "Accesorios de alta calidad.",
+    description: "Encontrá los mejores accesorios.",
+    image: ["https://images.unsplash.com/photo-1502680390469-be75c86b636f?q=80&w=1000&auto=format&fit=crop"],
+    ctaText: "Ver Accesorios",
+    targetCategory: "Accesorios",
+    theme: "dark"
+  },
+   {
+    id: 4,
+    title: "Trajes",
+    subtitle: "Equipamiento de alto rendimiento.",
+    description: "",
+    image: ["/images/products/traje.jpg"],
+    ctaText: "Ver Trajes",
+    targetCategory: "Trajes",
+    theme: "dark"
   }
 ];

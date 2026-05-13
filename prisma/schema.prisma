@@ -43,17 +43,36 @@ model user {
 }
 
 model Category {
-  id          String    @id @default(cuid())
-  name        String    @unique
-  description String?
-  active      Boolean   @default(true)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  sizeTypeId  String?
-  sizeType    SizeType? @relation(fields: [sizeTypeId], references: [id])
-  garments    Garment[]
+  id            String        @id @default(cuid())
+  name          String        @unique
+  active        Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  sizeTypeId    String?
+  sizeType      SizeType?     @relation(fields: [sizeTypeId], references: [id])
+  
+  // Relaciones añadidas/actualizadas
+  subCategories SubCategory[]
+  garments      Garment[]
 
   @@index([sizeTypeId])
+}
+
+model SubCategory {
+  id          String   @id @default(cuid())
+  name        String
+  active      Boolean  @default(true)
+  description String?
+  categoryId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relaciones
+  category    Category  @relation(fields: [categoryId], references: [id])
+  garments    Garment[]
+
+  @@unique([name, categoryId])
+  @@index([categoryId])
 }
 
 model Provider {
@@ -81,21 +100,26 @@ model ContactProvider {
 }
 
 model Garment {
-  id          String           @id @default(cuid())
-  name        String
-  price       Decimal          @db.Decimal(10, 2)
-  description String?
-  active      Boolean          @default(true)
-  categoryId  String
-  supplierId  String?
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  cost        Decimal          @db.Decimal(10, 2)
-  category    Category         @relation(fields: [categoryId], references: [id])
-  supplier    Provider?        @relation(fields: [supplierId], references: [id])
-  variants    GarmentVariant[]
+  id            String           @id @default(cuid())
+  name          String
+  price         Decimal          @db.Decimal(10, 2)
+  description   String?
+  active        Boolean          @default(true)
+  categoryId    String
+  subCategoryId String?          // Relación con Subcategoría
+  supplierId    String?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  cost          Decimal          @db.Decimal(10, 2)
+  
+  // Relaciones
+  category      Category         @relation(fields: [categoryId], references: [id])
+  subCategory   SubCategory?     @relation(fields: [subCategoryId], references: [id])
+  supplier      Provider?        @relation(fields: [supplierId], references: [id])
+  variants      GarmentVariant[]
 
   @@index([categoryId])
+  @@index([subCategoryId])
   @@index([supplierId])
 }
 
