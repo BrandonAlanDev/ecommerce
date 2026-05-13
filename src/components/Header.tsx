@@ -97,7 +97,7 @@ export default function Header({
                   ? "text-white"
                   : "text-white"
               }`}>
-            NewSurfBoard
+            {"Mya Imp"}
           </span>
         </Link>
 

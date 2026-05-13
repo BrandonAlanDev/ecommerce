@@ -10,12 +10,12 @@ export function Footer( { openPrivacy, openTerms }: { openPrivacy: () => void; o
           <div className="flex items-center gap-2">
             <Shirt width={'24'} height={'24'}/>
             <span className="font-semibold text-foreground">
-              Gestion{" "}<span className="text-primary">OK</span>
+              Mya{" "}<span className="text-primary">Imp</span>
             </span>
           </div>
           
           <p className="text-sm text-muted-foreground text-center">
-            Gestion OK.{" "} Sistema de gestión de stock.{" "}{new Date().getFullYear()} 
+            Mya Imp.{" "} comercio online de importaciones.
           </p>
 
           <div className="flex gap-6">
