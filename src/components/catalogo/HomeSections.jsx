@@ -56,9 +56,92 @@ const CATEGORY_GRID = [
   },
 ];
 
+
 // --- TARJETA DE CATEGORÍA ---
 const CategoryCard = ({ cat, index }) => {
   const [hovered, setHovered] = useState(false);
+
+  return (
+    <motion.a
+      href={cat.href}
+      className="relative overflow-hidden rounded-2xl cursor-pointer group h-[260px] sm:h-[280px]"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {/* Imagen de fondo con zoom al hover */}
+      <motion.div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${cat.image})` }}
+        animate={{ scale: hovered ? 1.07 : 1 }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      />
+
+      {/* Gradiente superpuesto */}
+      <div className={`absolute inset-0 bg-gradient-to-t ${cat.accent} transition-opacity duration-300`} />
+
+      {/* Capa oscura adicional al hover */}
+      <motion.div
+        className="absolute inset-0 bg-slate-900/20"
+        animate={{ opacity: hovered ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+      />
+
+      {/* Contenido */}
+      <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
+        <motion.p
+          className="text-white/60 text-xs font-semibold tracking-widest uppercase mb-1"
+          animate={{ opacity: hovered ? 1 : 0.7, y: hovered ? 0 : 4 }}
+          transition={{ duration: 0.3 }}
+        >
+          {cat.sublabel}
+        </motion.p>
+        <div className="flex items-end justify-between">
+          <h3 className="text-white font-bold text-xl md:text-2xl tracking-tight leading-tight">
+            {cat.label}
+          </h3>
+          <motion.div
+            className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center backdrop-blur-sm"
+            animate={{
+              x: hovered ? 0 : 6,
+              opacity: hovered ? 1 : 0,
+              backgroundColor: hovered ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.1)'
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            <ArrowRight className={`w-4 h-4 ${hovered ? 'text-slate-900' : 'text-white'}`} />
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Borde sutil al hover */}
+      <motion.div
+        className="absolute inset-0 rounded-2xl border-2 border-white/20"
+        animate={{ opacity: hovered ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+      />
+    </motion.a>
+  );
+};
+
+// --- COMPONENTE AUXILIAR: BOTÓN CON DESPLEGABLE ---
+const CategoryDropdown = ({ cat, activeCategory, setActiveCategory, setActiveSubcategory }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const timeoutRef = useRef(null);
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => setIsOpen(false), 200);
+  };
+
+  const isSelected = activeCategory === cat.name;
 
   return (
     <motion.a

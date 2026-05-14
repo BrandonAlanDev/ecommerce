@@ -26,6 +26,7 @@ export function Footer({
   openTerms: () => void;
 }) {
   return (
+
     <footer className="bg-white border-t border-slate-200 text-slate-900">
 
       {/* Franja superior */}
@@ -36,6 +37,7 @@ export function Footer({
           <div className="md:col-span-2 space-y-5">
             <span className="text-3xl font-black uppercase italic tracking-tighter text-slate-900">
               NewSurf<span className="text-blue-500">Board</span>
+
             </span>
             <p className="text-sm text-slate-500 leading-relaxed max-w-xs">
               Equipamiento de surf en Santa Clara del Mar. Tablas, trajes y accesorios para todos los niveles, probados en el Atlántico.
