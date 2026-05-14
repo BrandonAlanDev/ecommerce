@@ -32,7 +32,7 @@ const MENU_GROUPS = [
     title: "Catálogo",
     items: [
       { name: "Productos", href: "/garments", icon: Tags },
-      { name: "Categorías", href: "/admin/categories", icon: Layers },
+      { name: "Categorías", href: "/category", icon: Layers },
     ]
   },
   {
