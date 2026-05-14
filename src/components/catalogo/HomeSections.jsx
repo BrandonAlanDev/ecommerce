@@ -60,25 +60,70 @@ const CATEGORY_GRID = [
 // --- TARJETA DE CATEGORÍA ---
 const CategoryCard = ({ cat, index }) => {
   const [hovered, setHovered] = useState(false);
-        <div className="relative z-10">
-          <span className="inline-block py-1 px-3 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-300 text-xs font-bold mb-6 tracking-wider uppercase">
-            Equipo Pro
-          </span>
-          <h3 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
-            Pasión por el fútbol.
+
+  return (
+    <motion.a
+      href={cat.href}
+      className="relative overflow-hidden rounded-2xl cursor-pointer group h-[260px] sm:h-[280px]"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {/* Imagen de fondo con zoom al hover */}
+      <motion.div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${cat.image})` }}
+        animate={{ scale: hovered ? 1.07 : 1 }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      />
+
+      {/* Gradiente superpuesto */}
+      <div className={`absolute inset-0 bg-gradient-to-t ${cat.accent} transition-opacity duration-300`} />
+
+      {/* Capa oscura adicional al hover */}
+      <motion.div
+        className="absolute inset-0 bg-slate-900/20"
+        animate={{ opacity: hovered ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+      />
+
+      {/* Contenido */}
+      <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
+        <motion.p
+          className="text-white/60 text-xs font-semibold tracking-widest uppercase mb-1"
+          animate={{ opacity: hovered ? 1 : 0.7, y: hovered ? 0 : 4 }}
+          transition={{ duration: 0.3 }}
+        >
+          {cat.sublabel}
+        </motion.p>
+        <div className="flex items-end justify-between">
+          <h3 className="text-white font-bold text-xl md:text-2xl tracking-tight leading-tight">
+            {cat.label}
           </h3>
-          <p className="text-slate-300 mb-8 max-w-lg mx-auto text-lg leading-relaxed">
-            Explorá nuestra selección botines de fútbol 11 diseñados para ofrecerte el máximo rendimiento en cada partido. Con tecnología de punta, comodidad excepcional y estilos modernos, nuestros botines te ayudarán a dominar el campo con confianza y estilo.
-          </p>
-          <a href="/productos">
-            <button className="bg-white text-slate-900 px-8 py-4 rounded-full font-bold hover:bg-blue-50 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 mx-auto">
-              Ver Botines
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </a>
+          <motion.div
+            className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center backdrop-blur-sm"
+            animate={{
+              x: hovered ? 0 : 6,
+              opacity: hovered ? 1 : 0,
+              backgroundColor: hovered ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.1)'
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            <ArrowRight className={`w-4 h-4 ${hovered ? 'text-slate-900' : 'text-white'}`} />
+          </motion.div>
         </div>
       </div>
-    </section>
+
+      {/* Borde sutil al hover */}
+      <motion.div
+        className="absolute inset-0 rounded-2xl border-2 border-white/20"
+        animate={{ opacity: hovered ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+      />
+    </motion.a>
   );
 };
 
