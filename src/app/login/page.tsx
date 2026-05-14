@@ -31,7 +31,7 @@ export default function LoginPage() {
             <Shirt className="w-8 h-8 text-blue-300" />
           </div>
           <h1 className="text-3xl font-black text-white tracking-tighter uppercase italic">
-            Gestion <span className="text-blue-300">OK</span>
+            Mya <span className="text-blue-300">Imp</span>
           </h1>
           <p className="text-gray-400 text-sm mt-2">Ingresa a tu cuenta</p>
         </div>

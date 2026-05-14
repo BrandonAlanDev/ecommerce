@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { products } from "@/components/catalogo/data";
-import { PromotionBanner, FeaturedSection } from "@/components/catalogo/HomeSections";
+import { FeaturedSection } from "@/components/catalogo/HomeSections";
 import Hero from "@/components/catalogo/Hero";
 export default function HomePage() {
   const [homeCategory, setHomeCategory] = useState("Todos");
@@ -18,7 +18,6 @@ export default function HomePage() {
          products={products}
          addToCart={addToCart} // La pasamos como prop
       />
-      <PromotionBanner />
     </div>
   );
 }
