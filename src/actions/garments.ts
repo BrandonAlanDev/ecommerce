@@ -42,16 +42,31 @@ export async function createGarment(data: {
  */
 export async function updateGarment(id: string, data: any) {
   try {
-    await prisma.garment.update({
-      where: { id },
-      data: data,
-    });
+    await prisma.$transaction([
+      // 1. Borramos las imágenes actuales del producto
+      prisma.garmentImage.deleteMany({ where: { garmentId: id } }),
+      
+      // 2. Actualizamos los datos básicos y creamos las nuevas imágenes
+      prisma.garment.update({
+        where: { id },
+        data: {
+          name: data.name,
+          description: data.description,
+          price: data.price,
+          cost: data.cost,
+          categoryId: data.categoryId,
+          images: {
+            create: data.images // Insertamos el nuevo set de imágenes
+          }
+        },
+      })
+    ]);
 
     revalidatePath("/admin/garments");
-    revalidatePath(`/(public)/productos/${id}`); // Actualiza la vista del cliente
     return { success: true };
   } catch (error) {
-    return { success: false, error: "Error al actualizar." };
+    console.error("Update Error:", error);
+    return { success: false, error: "Error al actualizar producto e imágenes" };
   }
 }
 
