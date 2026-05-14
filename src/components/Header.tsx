@@ -19,6 +19,7 @@ import {
   Search,
   Home,
   Store,
+  ShieldCheck,
 } from "lucide-react";
 
 import { useEffect, useState } from "react";
@@ -57,12 +58,11 @@ export default function Header({
 
   const linkStyle = (path: string) => `
     flex items-center gap-2 text-sm font-bold uppercase tracking-tighter transition-all duration-300
-    ${
-      pathname === path
-        ? isHomeTop
-          ? "text-blue-800 italic"
-          : "text-blue-800 italic"
-        : isHomeTop
+    ${pathname === path
+      ? isHomeTop
+        ? "text-blue-800 italic"
+        : "text-blue-800 italic"
+      : isHomeTop
         ? "text-neutral-800"
         : "text-neutral-800"
     }
@@ -70,10 +70,9 @@ export default function Header({
 
   const actionButtonStyle = `
     p-2 rounded-xl border transition-all duration-300
-    ${
-      isHomeTop
-        ? "border-neutral-800 bg-neutral-300/20 text-white hover:text-white hover:bg-blue-800"
-        : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:text-white"
+    ${isHomeTop
+      ? "border-neutral-800 bg-neutral-300/20 text-white hover:text-white hover:bg-blue-800"
+      : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:text-white"
     }
   `;
 
@@ -83,44 +82,25 @@ export default function Header({
         fixed top-0 left-0 right-0 z-[100]
         transition-all duration-500
         border-b
-        ${
-          isHomeTop
-            ? "bg-white/20 border-transparent"
-            : "bg-black/80 backdrop-blur-md border-neutral-900"
+        ${isHomeTop
+          ? "bg-white/20 border-transparent"
+          : "bg-black/80 backdrop-blur-md border-neutral-900"
         }
       `}
     >
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
-          <span className={`text-xl font-black uppercase italic tracking-tighter ${
-                isHomeTop
-                  ? "text-white"
-                  : "text-white"
-              }`}>
+          <span className={`text-xl font-black uppercase italic tracking-tighter ${isHomeTop
+              ? "text-white"
+              : "text-white"
+            }`}>
             NewSurfBoard
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          <Button variant={"blanco"}><Link href="/" className={linkStyle("/")}>
-            <Home size={16} />
-            Home
-          </Link></Button>
-
-          <Button variant={"blanco"}><Link href="/productos" className={linkStyle("/productos")}>
-            <Store size={16} />
-            Catálogo
-          </Link></Button>
-        </nav>
-
         {/* Actions */}
         <div className="flex items-center gap-3">
-          {/* Search */}
-          <button className={`${actionButtonStyle} hidden sm:flex`}>
-            <Search size={18} />
-          </button>
-          
+
           {/* Logged User */}
           {session?.user?.name ? (
             <>
@@ -128,17 +108,21 @@ export default function Header({
                 <span
                   className={`
                     text-[10px] font-black uppercase leading-none
-                    ${
-                      isHomeTop
-                        ? "text-blue-800"
-                        : "text-blue-800"
+                    ${isHomeTop
+                      ? "text-blue-800"
+                      : "text-blue-800"
                     }
                   `}
                 >
                 </span>
 
                 <span className="text-xs text-blue-800 font-medium">
-                  {"Admin"}
+                  {session?.user.role === 'ADMIN' && (
+                    <Link href="/admin" className="flex items-center gap-2 text-blue-600 font-bold">
+                      <ShieldCheck size={18} />
+                      Panel Admin
+                    </Link>
+                  )}
                 </span>
               </div>
 
@@ -148,10 +132,9 @@ export default function Header({
                 onClick={() => handleSignOut()}
                 className={`
                   rounded-xl transition-all
-                  ${
-                    isHomeTop
-                      ? "border-neutral-800 bg-neutral-900 text-neutral-400 hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-500"
-                      : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-500"
+                  ${isHomeTop
+                    ? "border-neutral-800 bg-neutral-900 text-neutral-400 hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-500"
+                    : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-500"
                   }
                 `}
               >
@@ -159,29 +142,27 @@ export default function Header({
               </Button>
             </>
           ) : (<Link
-              href="/login"
-              className={`
+            href="/login"
+            className={`
                 hidden sm:flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-xl border transition-all duration-300
-                ${
-                  isHomeTop
-                    ? "border-neutral-800 bg-neutral-900 text-neutral-400 hover:bg-blue-800 hover:text-white"
-                    : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:bg-blue-800 hover:text-white"
-                }
+                ${isHomeTop
+                ? "border-neutral-800 bg-neutral-900 text-neutral-400 hover:bg-blue-800 hover:text-white"
+                : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:bg-blue-800 hover:text-white"
+              }
               `}
-            >
-              <User size={16} />
-              Iniciar Sesión
-            </Link>
+          >
+            <User size={16} />
+            Iniciar Sesión
+          </Link>
           )}
 
           {/* Mobile Menu Button */}
           <button
             className={`
               md:hidden p-2 rounded-xl transition-all duration-300
-              ${
-                isHomeTop
-                  ? "text-white hover:bg-white/10"
-                  : "text-white hover:bg-neutral-900"
+              ${isHomeTop
+                ? "text-white hover:bg-white/10"
+                : "text-white hover:bg-neutral-900"
               }
             `}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -195,10 +176,9 @@ export default function Header({
       <div
         className={`
           md:hidden overflow-hidden transition-all duration-500
-          ${
-            isMenuOpen
-              ? "max-h-96 opacity-100"
-              : "max-h-0 opacity-0"
+          ${isMenuOpen
+            ? "max-h-96 opacity-100"
+            : "max-h-0 opacity-0"
           }
         `}
       >
@@ -224,6 +204,7 @@ export default function Header({
 
             {/* Admin Links */}
             {session?.user?.role === "ADMIN" && (
+
               <>
                 <Button variant={"blanco"}><Link
                   onClick={() => setIsMenuOpen(false)}
