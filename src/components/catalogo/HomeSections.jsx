@@ -56,9 +56,47 @@ const CATEGORY_GRID = [
   },
 ];
 
+
 // --- TARJETA DE CATEGORÍA ---
 const CategoryCard = ({ cat, index }) => {
   const [hovered, setHovered] = useState(false);
+        <div className="relative z-10">
+          <span className="inline-block py-1 px-3 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-300 text-xs font-bold mb-6 tracking-wider uppercase">
+            Equipo Pro
+          </span>
+          <h3 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
+            Pasión por el fútbol.
+          </h3>
+          <p className="text-slate-300 mb-8 max-w-lg mx-auto text-lg leading-relaxed">
+            Explorá nuestra selección botines de fútbol 11 diseñados para ofrecerte el máximo rendimiento en cada partido. Con tecnología de punta, comodidad excepcional y estilos modernos, nuestros botines te ayudarán a dominar el campo con confianza y estilo.
+          </p>
+          <a href="/productos">
+            <button className="bg-white text-slate-900 px-8 py-4 rounded-full font-bold hover:bg-blue-50 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 mx-auto">
+              Ver Botines
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// --- COMPONENTE AUXILIAR: BOTÓN CON DESPLEGABLE ---
+const CategoryDropdown = ({ cat, activeCategory, setActiveCategory, setActiveSubcategory }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const timeoutRef = useRef(null);
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => setIsOpen(false), 200);
+  };
+
+  const isSelected = activeCategory === cat.name;
 
   return (
     <motion.a

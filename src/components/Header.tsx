@@ -95,6 +95,7 @@ export default function Header({
               : "text-white"
             }`}>
             NewSurfBoard
+
           </span>
         </Link>
 
