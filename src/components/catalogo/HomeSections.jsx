@@ -1,23 +1,65 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ArrowRight } from 'lucide-react';
-import { categories } from './data';
-import ProductCard from './ProductCard';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 
-// --- COMPONENTE: BANNER PROMOCIONAL ---
-export const PromotionBanner = () => {
-  return (
-    <section className="max-w-7xl mx-auto px-4 mb-16 mt-16">
-      <div className="bg-slate-900 rounded-3xl p-8 md:p-16 text-center text-white relative overflow-hidden shadow-2xl shadow-slate-900/20">
-        
-        {/* Fondo abstracto decorativo */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-30">
-          <div className="absolute right-0 top-0 w-96 h-96 bg-blue-500 rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute left-0 bottom-0 w-96 h-96 bg-cyan-500 rounded-full blur-[100px] -translate-x-1/2 translate-y-1/2"></div>
-        </div>
+// --- DATOS DE CATEGORÍAS DEL GRID ---
+const CATEGORY_GRID = [
+  {
+    id: "tablas",
+    label: "Tablas",
+    sublabel: "Todos nuestros modelos",
+    href: "/productos?categoria=tablas",
+    image: "/images/products/tablas.jpg",
+    accent: "from-blue-900/80 via-blue-900/40 to-transparent",
+  },
+  {
+    id: "indumentaria",
+    label: "Indumentaria",
+    sublabel: "Remeras · Shorts · Calzado",
+    href: "/productos?categoria=indumentaria",
+    image: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?w=600&q=80",
+    accent: "from-slate-900/80 via-slate-900/30 to-transparent",
+  },
+  {
+    id: "trajes",
+    label: "Trajes",
+    sublabel: "Wetsuits · Rashguards",
+    href: "/productos?categoria=trajes",
+    image: "/images/products/traje.jpg",
+    accent: "from-cyan-900/80 via-cyan-900/30 to-transparent",
+  },
+  {
+    id: "accesorios",
+    label: "Accesorios",
+    sublabel: "Quillas · Leashes · Wax",
+    href: "/productos?categoria=accesorios",
+    image: "https://images.unsplash.com/photo-1509914398892-963f53e6e2f1?w=600&q=80",
+    accent: "from-slate-900/80 via-slate-900/30 to-transparent",
+  },
+  {
+    id: "escuela",
+    label: "Escuela de Surf",
+    sublabel: "Clases · Niveles · Paquetes",
+    href: "/escuela",
+    image: "/images/escuela.jpg",
+    accent: "from-teal-900/80 via-teal-900/30 to-transparent",
+  },
+  {
+    id: "personalizado",
+    label: "Personalizado",
+    sublabel: "Diseños a medida · Custom boards",
+    href: "/personalizado",
+    image: "/images/shape.jpg",
+    accent: "from-indigo-900/80 via-indigo-900/30 to-transparent",
+  },
+];
 
+
+// --- TARJETA DE CATEGORÍA ---
+const CategoryCard = ({ cat, index }) => {
+  const [hovered, setHovered] = useState(false);
         <div className="relative z-10">
           <span className="inline-block py-1 px-3 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-300 text-xs font-bold mb-6 tracking-wider uppercase">
             Equipo Pro
@@ -57,136 +99,94 @@ const CategoryDropdown = ({ cat, activeCategory, setActiveCategory, setActiveSub
   const isSelected = activeCategory === cat.name;
 
   return (
-    <div 
-      className="relative"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+    <motion.a
+      href={cat.href}
+      className="relative overflow-hidden rounded-2xl cursor-pointer group h-[260px] sm:h-[280px]"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
     >
-      <button
-        onClick={() => {
-          setActiveCategory(cat.name);
-          setActiveSubcategory("Todas");
-        }}
-        className={`flex items-center gap-2 px-5 py-2.5 rounded-full whitespace-nowrap transition-all text-sm font-semibold border ${
-          isSelected 
-            ? "bg-slate-900 text-white shadow-lg border-slate-900" 
-            : "bg-white text-slate-600 border-slate-200 hover:border-slate-400"
-        }`}
-      >
-        {cat.name}
-        <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
-      </button>
+      {/* Imagen de fondo con zoom al hover */}
+      <motion.div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${cat.image})` }}
+        animate={{ scale: hovered ? 1.07 : 1 }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      />
 
-      <AnimatePresence>
-        {isOpen && (
+      {/* Gradiente superpuesto */}
+      <div className={`absolute inset-0 bg-gradient-to-t ${cat.accent} transition-opacity duration-300`} />
+
+      {/* Capa oscura adicional al hover */}
+      <motion.div
+        className="absolute inset-0 bg-slate-900/20"
+        animate={{ opacity: hovered ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+      />
+
+      {/* Contenido */}
+      <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
+        <motion.p
+          className="text-white/60 text-xs font-semibold tracking-widest uppercase mb-1"
+          animate={{ opacity: hovered ? 1 : 0.7, y: hovered ? 0 : 4 }}
+          transition={{ duration: 0.3 }}
+        >
+          {cat.sublabel}
+        </motion.p>
+        <div className="flex items-end justify-between">
+          <h3 className="text-white font-bold text-xl md:text-2xl tracking-tight leading-tight">
+            {cat.label}
+          </h3>
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            className="absolute top-full left-0 mt-2 w-48 bg-white rounded-2xl shadow-2xl border border-slate-100 py-2 z-50 overflow-hidden"
-          >
-            <button
-              onClick={() => {
-                setActiveCategory(cat.name);
-                setActiveSubcategory("Todas");
-                setIsOpen(false);
-              }}
-              className="w-full text-left px-4 py-2 text-xs font-bold text-slate-400 hover:bg-slate-50 uppercase tracking-widest"
-            >
-              Ver Todo {cat.name}
-            </button>
-            <div className="h-[1px] bg-slate-100 my-1" />
-            {cat.subcategories.map((sub) => (
-              <button
-                key={sub}
-                onClick={() => {
-                  setActiveCategory(cat.name);
-                  setActiveSubcategory(sub);
-                  setIsOpen(false);
-                }}
-                className="w-full text-left px-4 py-3 text-sm text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors font-medium"
-              >
-                {sub}
-              </button>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
-
-// --- COMPONENTE: SECCIÓN DESTACADA (Con Filtros Dropdown) ---
-export const FeaturedSection = ({ activeCategory, setActiveCategory, products, addToCart }) => {
-  const [activeSubcategory, setActiveSubcategory] = useState("Todas");
-
-  // Filtrado lógico
-  const filteredProducts = products.filter(p => {
-    const matchesCategory = activeCategory === "Todos" || p.category === activeCategory;
-    const matchesSubcategory = activeSubcategory === "Todas" || p.subcategory === activeSubcategory;
-    return matchesCategory && matchesSubcategory;
-  });
-
-  return (
-    <section id="featured" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
-        <div className='flex flex-col'>
-          <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Equipamiento Destacado</h2>
-          <p className="text-slate-500 mt-2 text-lg font-medium">
-            {activeCategory === "Todos" 
-              ? "Lo mejor de nuestra tienda en Santa Clara." 
-              : `Explorando ${activeCategory} ${activeSubcategory !== "Todas" ? `> ${activeSubcategory}` : ""}`}
-          </p>
-        </div>
-        
-        {/* Contenedor de filtros: IMPORTANTE el overflow-visible para el dropdown */}
-        <div className="flex gap-3 overflow-visible p-2">
-          <button 
-            onClick={() => {
-              setActiveCategory("Todos");
-              setActiveSubcategory("Todas");
+            className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center backdrop-blur-sm"
+            animate={{
+              x: hovered ? 0 : 6,
+              opacity: hovered ? 1 : 0,
+              backgroundColor: hovered ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.1)'
             }}
-            className={`px-5 py-2.5 rounded-full transition-all text-sm font-semibold border ${
-              activeCategory === "Todos" 
-                ? "bg-slate-900 text-white shadow-lg border-slate-900" 
-                : "bg-white text-slate-600 border-slate-200 hover:border-slate-400"
-            }`}
+            transition={{ duration: 0.3 }}
           >
-            Todos
-          </button>
-
-          {categories.map((cat) => (
-            <CategoryDropdown 
-              key={cat.id}
-              cat={cat}
-              activeCategory={activeCategory}
-              setActiveCategory={setActiveCategory}
-              setActiveSubcategory={setActiveSubcategory}
-            />
-          ))}
+            <ArrowRight className={`w-4 h-4 ${hovered ? 'text-slate-900' : 'text-white'}`} />
+          </motion.div>
         </div>
       </div>
 
-      <motion.div 
-        layout
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
-      >
-        <AnimatePresence mode='popLayout'>
-          {filteredProducts.slice(0, 8).map((product) => (
-            <ProductCard 
-              key={product.id} 
-              product={product} 
-              addToCart={addToCart}
-            />
-          ))}
-        </AnimatePresence>
-      </motion.div>
+      {/* Borde sutil al hover */}
+      <motion.div
+        className="absolute inset-0 rounded-2xl border-2 border-white/20"
+        animate={{ opacity: hovered ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+      />
+    </motion.a>
+  );
+};
 
-      {filteredProducts.length === 0 && (
-        <div className="w-full py-20 text-center text-slate-400">
-          No hay productos disponibles en esta subcategoría actualmente.
+// --- COMPONENTE: SECCIÓN DESTACADA ---
+export const FeaturedSection = ({ activeCategory, setActiveCategory }) => {
+  return (
+    <section id="featured" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
+      {/* Encabezado */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <span className="text-xs font-bold tracking-widest uppercase text-blue-500 mb-2 block">
+            Santa Clara del Mar
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight leading-tight">
+            Somos NEWSURFBOARD
+          </h2>
         </div>
-      )}
+      </div>
+
+      {/* Grid: 1 col en mobile, 2 col en sm+ */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {CATEGORY_GRID.map((cat, index) => (
+          <CategoryCard key={cat.id} cat={cat} index={index} />
+        ))}
+      </div>
     </section>
   );
 };

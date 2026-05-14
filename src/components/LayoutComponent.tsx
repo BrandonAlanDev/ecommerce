@@ -5,7 +5,6 @@ import SessionWrapper from "./providers/SessionWrapper";
 import { Toaster } from "sonner";
 import CartSidebar from "@/components/catalogo/CartSidebar";
 import { CartProvider, useCart } from "@/context/CartContext";
-import LocationSection from "@/components/catalogo/LocationSection"; // Importa tu footer
 
 // Componente interno para acceder al contexto
 function AppLayout({ children }: { children: React.ReactNode }) {
@@ -25,7 +24,6 @@ function AppLayout({ children }: { children: React.ReactNode }) {
         {children}
       </main>
       <footer className="border-t-2 border-gray-50">
-        <LocationSection />
       </footer>
       <Toaster richColors position="top-right" closeButton />
     </>
