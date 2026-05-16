@@ -1,11 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { handleSignOut } from "@/actions/auth-actions";
-import { useSession } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
+
 import {
-  Shirt,
   Package,
   Tags,
   Truck,
@@ -15,8 +14,6 @@ import {
   X,
   User,
   History,
-  ShoppingCart,
-  Search,
   Home,
   Store,
   ShieldCheck,
@@ -24,6 +21,7 @@ import {
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { is } from "zod/v4/locales";
 
 interface HeaderProps {
   cartCount: number;
@@ -35,16 +33,16 @@ export default function Header({
   onOpenCart,
 }: HeaderProps) {
   const pathname = usePathname();
+  const router = useRouter();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   const isHomeTop = pathname === "/" && !scrolled;
 
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
-    console.log("Session in Header:", session);
     const handleScroll = () => {
       setScrolled(window.scrollY > 0);
     };
@@ -56,114 +54,131 @@ export default function Header({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleLogout = async () => {
+    await signOut({
+      redirect: false,
+    });
+
+    router.refresh();
+    router.push("/");
+  };
+
   const linkStyle = (path: string) => `
     flex items-center gap-2 text-sm font-bold uppercase tracking-tighter transition-all duration-300
-    ${pathname === path
-      ? isHomeTop
+    ${
+      pathname === path
         ? "text-blue-800 italic"
-        : "text-blue-800 italic"
-      : isHomeTop
+        : isHomeTop
         ? "text-neutral-800"
         : "text-neutral-800"
     }
   `;
 
-  const actionButtonStyle = `
-    p-2 rounded-xl border transition-all duration-300
-    ${isHomeTop
-      ? "border-neutral-800 bg-neutral-300/20 text-white hover:text-white hover:bg-blue-800"
-      : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:text-white"
-    }
-  `;
+  /*
+    =========================
+    LINKS
+    =========================
+  */
+
+  const userLinks = [
+    {
+      href: "/",
+      label: "Home",
+      icon: Home,
+    },
+    {
+      href: "/productos",
+      label: "Catálogo",
+      icon: Store,
+    },
+  ];
+
+  const adminLinks = [
+    {
+      href: "/dashboard",
+      label: "Productos",
+      icon: Package,
+    },
+    {
+      href: "/categories",
+      label: "Categorías",
+      icon: Tags,
+    },
+    {
+      href: "/provider",
+      label: "Proveedores",
+      icon: Truck,
+    },
+    {
+      href: "/sizes",
+      label: "Talles",
+      icon: Ruler,
+    },
+    {
+      href: "/movements",
+      label: "Historial",
+      icon: History,
+    },
+  ];
+
+  if (status === "loading") {
+    return null;
+  }
 
   return (
     <header
       className={`
         fixed top-0 left-0 right-0 z-[100]
-        transition-all duration-500
-        border-b
-        ${isHomeTop
-          ? "bg-white/20 border-transparent"
-          : "bg-black/80 backdrop-blur-md border-neutral-900"
-        }
+        transition-all duration-500 
+        ${
+          isHomeTop
+            ? `border-transparent ${isMenuOpen ? "bg-black/80" : "bg-transparent "}`
+            : "bg-black/80 backdrop-blur-md "
+        } 
       `}
     >
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <span className={`text-xl font-black uppercase italic tracking-tighter ${isHomeTop
-              ? "text-white"
-              : "text-white"
-            }`}>
+          <span className={`text-xl px-3 py-1.5 font-black uppercase italic tracking-tighter text-blue-500 bg-white/70 rounded-2xl transition-all duration-300 backdrop-blur-md`}>
             NewSurfBoard
-
           </span>
         </Link>
 
         {/* Actions */}
-        <div className="flex items-center gap-3">
-
-          {/* Logged User */}
-          {session?.user?.name ? (
+        <div className={`flex items-center gap-3 p-3 transition-all duration-300 bg-white/70 rounded-2xl text-blue-500  backdrop-blur-md `}>
+          {session?.user ? (
             <>
+              {/* User Info */}
               <div className="hidden sm:flex flex-col items-end mr-2">
-                <span
-                  className={`
-                    text-[10px] font-black uppercase leading-none
-                    ${isHomeTop
-                      ? "text-blue-800"
-                      : "text-blue-800"
-                    }
-                  `}
-                >
+                <span className="text-sm font-bold">
+                  Hola, {session.user.name}
                 </span>
 
-                <span className="text-xs text-blue-800 font-medium">
-                  {session?.user.role === 'ADMIN' && (
-                    <Link href="/admin" className="flex items-center gap-2 text-blue-600 font-bold">
-                      <ShieldCheck size={18} />
-                      Panel Admin
-                    </Link>
-                  )}
-                </span>
+                {session.user.role === "ADMIN" && (
+                  <Link
+                    href="/admin"
+                    className="flex items-center gap-2 text-xs text-blue-500 font-bold hover:text-blue-400 transition hover:cursor-pointer"
+                  >
+                    <ShieldCheck size={14} />
+                    Panel Admin
+                  </Link>
+                )}
               </div>
-
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => handleSignOut()}
-                className={`
-                  rounded-xl transition-all
-                  ${isHomeTop
-                    ? "border-neutral-800 bg-neutral-900 text-neutral-400 hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-500"
-                    : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-500"
-                  }
-                `}
-              >
-                <LogOut size={18} />
-              </Button>
             </>
-          ) : (<Link
-            href="/login"
-            className={`
-                hidden sm:flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-xl border transition-all duration-300
-                ${isHomeTop
-                ? "border-neutral-800 bg-neutral-900 text-neutral-400 hover:bg-blue-800 hover:text-white"
-                : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:bg-blue-800 hover:text-white"
-              }
-              `}
-          >
-            <User size={16} />
-            Iniciar Sesión
-          </Link>
+          ) : (
+            <>
+            </>
           )}
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu */}
           <button
             className={`
-              md:hidden p-2 rounded-xl transition-all duration-300
-              ${isHomeTop
-                ? "text-white hover:bg-white/10"
-                : "text-white hover:bg-neutral-900"
+              p-2 rounded-xl transition-all duration-300 hover:text-blue-400 transition hover:cursor-pointer
+              ${
+                isHomeTop
+                  ? "text-black hover:bg-white/10"
+                  : "text-white hover:bg-neutral-900"
               }
             `}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -176,82 +191,96 @@ export default function Header({
       {/* Mobile Navigation */}
       <div
         className={`
-          md:hidden overflow-hidden transition-all duration-500
-          ${isMenuOpen
-            ? "max-h-96 opacity-100"
-            : "max-h-0 opacity-0"
-          }
+          overflow-hidden transition-all duration-500 w-full max-w-7xl mx-auto
+          ${isMenuOpen ? "opacity-100" : "max-h-0 opacity-0"}
         `}
       >
-        <div className="bg-black/95 backdrop-blur-xl border-t border-neutral-900">
-          <nav className="flex flex-col p-6 gap-6">
-            <Button variant={"blanco"}><Link
-              onClick={() => setIsMenuOpen(false)}
-              href="/"
-              className={linkStyle("/")}
-            >
-              <Home size={20} />
-              Home
-            </Link></Button>
+        <div className="w-full">
+          <nav className="flex flex-col md:flex-row md:items-center md:justify-between md:px-6 w-full p-6 gap-6">
+            <div>
 
-            <Button variant={"blanco"}><Link
-              onClick={() => setIsMenuOpen(false)}
-              href="/productos"
-              className={linkStyle("/productos")}
-            >
-              <Store size={20} />
-              Catálogo
-            </Link></Button>
+            {/* Logged User Mobile */}
+            {session?.user && (
+              <div className="flex flex-col gap-1 border-b border-neutral-800 pb-4">
+                <span className="text-white font-bold">
+                  {session.user.name}
+                </span>
 
-            {/* Admin Links */}
-            {session?.user?.role === "ADMIN" && (
+                {session.user.role === "ADMIN" && (
+                  <span className="text-blue-500 text-sm font-medium">
+                    Administrador
+                  </span>
+                )}
+              </div>
+            )}
+            </div>
+            <div className="flex flex-col md:flex-row gap-4 gap-4">
+            {/* USER LINKS */}
+            {userLinks.map((link) => {
+              const Icon = link.icon;
 
-              <>
-                <Button variant={"blanco"}><Link
-                  onClick={() => setIsMenuOpen(false)}
-                  href="/dashboard"
-                  className={linkStyle("/dashboard")}
+              return (
+                <Button
+                  key={link.href}
+                  variant={"blanco"}
                 >
-                  <Package size={20} />
-                  Productos
-                </Link></Button>
+                  <Link
+                    onClick={() => setIsMenuOpen(false)}
+                    href={link.href}
+                    className={linkStyle(link.href)}
+                  >
+                    <Icon size={20} />
+                    {link.label}
+                  </Link>
+                </Button>
+              );
+            })}
 
-                <Button variant={"blanco"}><Link
-                  onClick={() => setIsMenuOpen(false)}
-                  href="/categories"
-                  className={linkStyle("/categories")}
-                >
-                  <Tags size={20} />
-                  Categorías
-                </Link></Button>
+            {/* ADMIN LINKS */}
+            {session?.user?.role === "ADMIN" &&
+              adminLinks.map((link) => {
+                const Icon = link.icon;
 
-                <Button variant={"blanco"}><Link
-                  onClick={() => setIsMenuOpen(false)}
-                  href="/provider"
-                  className={linkStyle("/provider")}
-                >
-                  <Truck size={20} />
-                  Proveedores
-                </Link></Button>
+                return (
+                  <Button
+                    key={link.href}
+                    variant={"blanco"}
+                  >
+                    <Link
+                      onClick={() => setIsMenuOpen(false)}
+                      href={link.href}
+                      className={linkStyle(link.href)}
+                    >
+                      <Icon size={20} />
+                      {link.label}
+                    </Link>
+                  </Button>
+                );
+              })}
+            </div>
 
-                <Button variant={"blanco"}><Link
+            {/* Login / Logout */}
+            {session?.user ? (
+              <Button
+                variant={"rojo"}
+                onClick={handleLogout}
+              >
+                <div className="flex items-center gap-2 p-3">
+                  <LogOut size={18} />
+                  Salir
+                </div>
+              </Button>
+            ) : (
+              <Button variant={"blanco"}>
+                <Link
+                  href="/login"
                   onClick={() => setIsMenuOpen(false)}
-                  href="/sizes"
-                  className={linkStyle("/sizes")}
+                  className="flex items-center gap-2"
                 >
-                  <Ruler size={20} />
-                  Talles
-                </Link></Button>
-
-                <Button variant={"blanco"}><Link
-                  onClick={() => setIsMenuOpen(false)}
-                  href="/movements"
-                  className={linkStyle("/movements")}
-                >
-                  <History size={20} />
-                  Historial
-                </Link></Button>
-              </>
+                  <User size={18} />
+                  Iniciar Sesión
+                </Link>
+              </Button>
             )}
           </nav>
         </div>
